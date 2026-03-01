@@ -140,6 +140,56 @@ Explore operational and resource-related drivers.
 
 ---
 
+## 🧮 Measures (DAX)
+
+The following DAX measures were created in Power BI Desktop to support KPI cards and analytical visuals:
+
+### Total Revenue
+```DAX
+Total Revenue = SUM(fact_admissions[Total_Bill_LKR])
+```
+### Total Admissions
+```
+Total Admissions = COUNT(fact_admissions[Admission_ID])
+```
+### Average Length of Stay
+```
+Avg Length of Stay = AVERAGE(fact_admissions[Length_of_Stay_Days])
+```
+### Surgery Count
+```
+Surgery Count =
+CALCULATE(
+    COUNT(fact_admissions[Admission_ID]),
+    fact_admissions[Surgery_Performed] = "Yes"
+)
+```
+### Non-Surgery Count
+```
+Non-Surgery Count =
+CALCULATE(
+    COUNT(fact_admissions[Admission_ID]),
+    fact_admissions[Surgery_Performed] = "No"
+)
+```
+### Surgery Rate %
+```
+Surgery Rate % =
+DIVIDE(
+    CALCULATE(
+        COUNT(fact_admissions[Admission_ID]),
+        fact_admissions[Surgery_Performed] = "Yes"
+    ),
+    COUNT(fact_admissions[Admission_ID])
+)
+```
+Additionally, a calculated column was created for Year-Month reporting:
+
+### YearMonth (Calculated Column)
+```
+YearMonth = FORMAT(dim_date[Admission_Date], "YYYY-MM")
+```
+
 ## 🧠 Key Observations
 
 - Average Length of Stay ≈ 5 days
